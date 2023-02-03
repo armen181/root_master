@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:root_master/screens/result/result_screen.dart';
 
 import '../../constants.dart';
+import '../create/create_game_screen.dart';
+import '../join/join_game_screen.dart';
 import '../quiz/quiz_screen.dart';
+import '../score/score_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -13,7 +17,7 @@ class WelcomeScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          Container(
+          SizedBox(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               child: Image.asset("assets/icons/4199010.jpeg", fit: BoxFit.fill)),
@@ -25,24 +29,13 @@ class WelcomeScreen extends StatelessWidget {
                 children: [
                   const Spacer(flex: 2), //2/6
                   Text(
-                    "Let's Play Quiz,",
+                    "Let's Play Root Master,",
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
                   ),
-                  const Text("Enter your informations below"),
+                  const Text("Be fast to win"),
                   const Spacer(),
-                  const TextField(
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Color(0xFF1C2341),
-                      hintText: "Full Name",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(12)),
-                      ),
-                    ),
-                  ),
-                  const Spacer(), // 1/6
                   InkWell(
-                    onTap: () => Get.to(QuizScreen()),
+                    onTap: () => Get.to(const CreateGameScreen()),
                     child: Container(
                       width: double.infinity,
                       alignment: Alignment.center,
@@ -53,8 +46,26 @@ class WelcomeScreen extends StatelessWidget {
                         borderRadius: BorderRadius.all(Radius.circular(12)),
                       ),
                       child: Text(
-                        "Lets Start Quiz",
-                        style: Theme.of(context).textTheme.labelLarge?.copyWith(color: Colors.black),
+                        "Create Game",
+                        style: Theme.of(context).textTheme.labelLarge?.copyWith(color: Colors.black, fontSize: 22),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 50,), // 1/6
+                  InkWell(
+                    onTap: () => Get.to(const JoinGameScreen()),
+                    child: Container(
+                      width: double.infinity,
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.all(kDefaultPadding * 0.75),
+                      // 15
+                      decoration: const BoxDecoration(
+                        gradient: kPrimaryGradient,
+                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                      ),
+                      child: Text(
+                        "Join Game",
+                        style: Theme.of(context).textTheme.labelLarge?.copyWith(color: Colors.black, fontSize: 22),
                       ),
                     ),
                   ),

@@ -43,6 +43,7 @@ class QuizScreen extends StatelessWidget {
           IconButton(
             onPressed: () {
               showModalBottomSheet(
+                backgroundColor: Colors.grey.shade800,
                 isScrollControlled: true,
                 useSafeArea: true,
                 context: context,
@@ -80,7 +81,7 @@ class QuizScreen extends StatelessWidget {
                           itemCount: userNameList.length,
                           itemBuilder: (context, index) {
                             return Container(
-                              decoration: BoxDecoration(color: Colors.lightGreen.withOpacity(0.5), borderRadius: BorderRadius.circular(10)),
+                              decoration: BoxDecoration(color: Colors.lightGreen.withOpacity(0.15), borderRadius: BorderRadius.circular(10)),
                               margin: EdgeInsets.all(10),
                               height: 50,
                               width: MediaQuery.of(context).size.width,

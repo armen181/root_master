@@ -23,6 +23,7 @@ class QuestionCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(25),
       ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             question.question,
@@ -33,7 +34,7 @@ class QuestionCard extends StatelessWidget {
           ),
           const Spacer(),
           ...List.generate(
-            question.options.length,
+            4,
             (index) => Option(
               index: index,
               text: question.options[index],

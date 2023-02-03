@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
+import 'package:root_master/screens/result/result_screen.dart';
 
 import '../models/Questions.dart';
 import '../screens/score/score_screen.dart';
@@ -34,10 +35,10 @@ class QuestionController extends GetxController
   bool get isAnswered => this._isAnswered;
 
   late int _correctAns;
-  int get correctAns => this._correctAns;
+  int get correctAns => _correctAns;
 
   late int _selectedAns;
-  int get selectedAns => this._selectedAns;
+  int get selectedAns => _selectedAns;
 
   // for more about obs please check documentation
   final RxInt _questionNumber = 1.obs;
@@ -106,7 +107,7 @@ class QuestionController extends GetxController
       _animationController.forward().whenComplete(nextQuestion);
     } else {
       // Get package provide us simple way to naviigate another page
-      Get.to(const ScoreScreen());
+      Get.to(const ResultScreen());
     }
   }
 
