@@ -19,7 +19,7 @@ class QuestionCard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
       padding: const EdgeInsets.all(kDefaultPadding),
       decoration: BoxDecoration(
-        color: Colors.white,
+        // color: Colors.white,
         borderRadius: BorderRadius.circular(25),
       ),
       child: Column(
@@ -29,9 +29,9 @@ class QuestionCard extends StatelessWidget {
             style: Theme.of(context)
                 .textTheme
                 .titleLarge
-                ?.copyWith(color: kBlackColor),
+                ?.copyWith(color: Colors.white),
           ),
-          const SizedBox(height: kDefaultPadding / 2),
+          const Spacer(),
           ...List.generate(
             question.options.length,
             (index) => Option(

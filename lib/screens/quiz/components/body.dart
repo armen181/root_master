@@ -21,39 +21,13 @@ class Body extends StatelessWidget {
             child: Image.asset("assets/icons/4199010.jpeg", fit: BoxFit.fill)),
         SafeArea(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              const SizedBox(height: 100),
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
                 child: ProgressBar(),
               ),
-              const SizedBox(height: kDefaultPadding),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-                child: Obx(
-                  () => Text.rich(
-                    TextSpan(
-                      text:
-                          "Question ${questionController.questionNumber.value}",
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineMedium
-                          ?.copyWith(color: kSecondaryColor),
-                      children: [
-                        TextSpan(
-                          text: "/${questionController.questions.length}",
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineSmall
-                              ?.copyWith(color: kSecondaryColor),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              const Divider(thickness: 1.5),
               const SizedBox(height: kDefaultPadding),
               Expanded(
                 child: PageView.builder(

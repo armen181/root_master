@@ -43,6 +43,7 @@ class Option extends StatelessWidget {
               margin: const EdgeInsets.only(top: kDefaultPadding),
               padding: const EdgeInsets.all(kDefaultPadding),
               decoration: BoxDecoration(
+                color:  getTheRightColor().withOpacity(0.5),
                 border: Border.all(color: getTheRightColor()),
                 borderRadius: BorderRadius.circular(15),
               ),
@@ -51,7 +52,7 @@ class Option extends StatelessWidget {
                 children: [
                   Text(
                     "${index + 1}. $text",
-                    style: TextStyle(color: getTheRightColor(), fontSize: 16),
+                    style: TextStyle(color: Colors.white, fontSize: 18),
                   ),
                   Container(
                     height: 26,
