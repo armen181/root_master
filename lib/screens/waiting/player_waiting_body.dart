@@ -136,7 +136,7 @@ class PlayerWaitingBody extends StatelessWidget {
                       style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.white, fontSize: 20),
                     );
                   }
-                }, // builder should also handle the case when data is not fetched yet
+                },
               ),
               const SizedBox(height: kDefaultPadding),
               const Spacer(),
@@ -149,7 +149,6 @@ class PlayerWaitingBody extends StatelessWidget {
                   width: double.infinity,
                   alignment: Alignment.center,
                   padding: const EdgeInsets.all(kDefaultPadding * 0.75),
-                  // 15
                   decoration: const BoxDecoration(
                     gradient: kPrimaryGradient,
                     borderRadius: BorderRadius.all(Radius.circular(12)),
