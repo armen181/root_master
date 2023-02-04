@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -10,8 +9,9 @@ import '../di/injector.dart';
 
 class RoomService {
   final Dio _httpService = injector<Dio>();
-
-  late RoomDto roomDto;
+  late int _token;
+  late PlayerDto _user;
+  late RoomDto _roomDto;
 
   Future<RoomDto> createRoom() async {
     final result = await _httpService.post(
@@ -24,17 +24,15 @@ class RoomService {
             HttpHeaders.contentTypeHeader: "application/json",
           }),
     );
-    roomDto = RoomDto.fromJson(result.data);
-    return roomDto;
+    _roomDto = RoomDto.fromJson(result.data);
+    _token = _roomDto.token;
+    return _roomDto;
   }
 
   Future<List<PlayerDto>> getPlayers() async {
-    var formData = FormData.fromMap({
-      'token': roomDto.token
-    });
+    var formData = FormData.fromMap({'token': _token});
     final result = await _httpService.post(
       '$baseUrl$playerUri',
-
       data: formData,
       options: Options(
           validateStatus: (status) {
@@ -44,9 +42,27 @@ class RoomService {
             HttpHeaders.contentTypeHeader: "application/json",
           }),
     );
-    return (result.data as List)
-        .map((data) => PlayerDto.fromJson(data))
-        .toList();
+    return (result.data as List).map((data) => PlayerDto.fromJson(data)).toList();
+  }
+
+  Future<void> join(String userName, int joinToken) async {
+    _token = joinToken;
+    var formData = FormData.fromMap({
+      'token': _token,
+      'userName': userName,
+    });
+    final result = await _httpService.post(
+      '$baseUrl$joinUri',
+      data: formData,
+      options: Options(
+          validateStatus: (status) {
+            return status == 200;
+          },
+          headers: {
+            HttpHeaders.contentTypeHeader: "application/json",
+          }),
+    );
+    _user = PlayerDto.fromJson(result.data);
   }
 
   Future<void> startGame() async {
@@ -60,5 +76,9 @@ class RoomService {
             HttpHeaders.contentTypeHeader: "application/json",
           }),
     );
+  }
+
+  int getToken() {
+    return _token;
   }
 }

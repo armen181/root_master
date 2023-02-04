@@ -25,8 +25,7 @@ class Option extends StatelessWidget {
             if (qnController.isAnswered) {
               if (index == qnController.correctAns) {
                 return kGreenColor;
-              } else if (index == qnController.selectedAns &&
-                  qnController.selectedAns != qnController.correctAns) {
+              } else if (index == qnController.selectedAns && qnController.selectedAns != qnController.correctAns) {
                 return kRedColor;
               }
             }
@@ -43,7 +42,7 @@ class Option extends StatelessWidget {
               margin: const EdgeInsets.only(top: kDefaultPadding),
               padding: const EdgeInsets.all(kDefaultPadding),
               decoration: BoxDecoration(
-                color:  getTheRightColor().withOpacity(0.5),
+                color: getTheRightColor().withOpacity(0.5),
                 border: Border.all(color: getTheRightColor()),
                 borderRadius: BorderRadius.circular(15),
               ),
@@ -58,15 +57,11 @@ class Option extends StatelessWidget {
                     height: 26,
                     width: 26,
                     decoration: BoxDecoration(
-                      color: getTheRightColor() == kGrayColor
-                          ? Colors.transparent
-                          : getTheRightColor(),
+                      color: getTheRightColor() == kGrayColor ? Colors.transparent : getTheRightColor(),
                       borderRadius: BorderRadius.circular(50),
                       border: Border.all(color: getTheRightColor()),
                     ),
-                    child: getTheRightColor() == kGrayColor
-                        ? null
-                        : Icon(getTheRightIcon(), size: 16),
+                    child: getTheRightColor() == kGrayColor ? null : Icon(getTheRightIcon(), size: 16),
                   )
                 ],
               ),
@@ -74,5 +69,4 @@ class Option extends StatelessWidget {
           );
         });
   }
-
 }

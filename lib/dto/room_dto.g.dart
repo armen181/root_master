@@ -8,12 +8,8 @@ part of 'room_dto.dart';
 
 RoomDto _$RoomDtoFromJson(Map<String, dynamic> json) => RoomDto(
       json['token'] as int,
-      (json['players'] as List<dynamic>)
-          .map((e) => PlayerDto.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      (json['questions'] as List<dynamic>)
-          .map((e) => QuestionDto.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      (json['players'] as List<dynamic>).map((e) => PlayerDto.fromJson(e as Map<String, dynamic>)).toList(),
+      (json['questions'] as List<dynamic>).map((e) => QuestionDto.fromJson(e as Map<String, dynamic>)).toList(),
     );
 
 Map<String, dynamic> _$RoomDtoToJson(RoomDto instance) => <String, dynamic>{

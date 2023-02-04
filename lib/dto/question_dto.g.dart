@@ -10,12 +10,10 @@ QuestionDto _$QuestionDtoFromJson(Map<String, dynamic> json) => QuestionDto(
       id: json['id'] as int,
       question: json['question'] as String,
       answer: json['answer'] as int,
-      options:
-          (json['options'] as List<dynamic>).map((e) => e as String).toList(),
+      options: (json['options'] as List<dynamic>).map((e) => e as String).toList(),
     );
 
-Map<String, dynamic> _$QuestionDtoToJson(QuestionDto instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$QuestionDtoToJson(QuestionDto instance) => <String, dynamic>{
       'id': instance.id,
       'answer': instance.answer,
       'question': instance.question,

@@ -4,7 +4,7 @@ import 'package:root_master/screens/welcome/welcome_screen.dart';
 
 import 'di/registry.dart';
 
-void main() async{
+void main() async {
   configure();
   runApp(const MyApp());
 }

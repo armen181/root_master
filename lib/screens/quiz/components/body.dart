@@ -8,17 +8,16 @@ import 'progress_bar.dart';
 import 'question_card.dart';
 
 class Body extends StatelessWidget {
-  const Body({ super.key,});
+  const Body({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     QuestionController questionController = Get.put(QuestionController());
     return Stack(
       children: [
-        SizedBox(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            child: Image.asset("assets/icons/4199010.jpeg", fit: BoxFit.fill)),
+        SizedBox(height: MediaQuery.of(context).size.height, width: MediaQuery.of(context).size.width, child: Image.asset("assets/icons/4199010.jpeg", fit: BoxFit.fill)),
         SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -36,8 +35,7 @@ class Body extends StatelessWidget {
                   controller: questionController.pageController,
                   onPageChanged: questionController.updateTheQnNum,
                   itemCount: questionController.questions.length,
-                  itemBuilder: (context, index) => QuestionCard(
-                      question: questionController.questions[index]),
+                  itemBuilder: (context, index) => QuestionCard(question: questionController.questions[index]),
                 ),
               ),
             ],

@@ -1,31 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:flutter_svg/svg.dart';
 
 import '../../../constants.dart';
-import '../../../controllers/question_controller.dart';
-import '../quiz/components/progress_bar.dart';
-import '../quiz/quiz_screen.dart';
+import '../../di/injector.dart';
+import '../../service/room_service.dart';
+import 'join_waiting_screen.dart';
 
 class JoinGameBody extends StatelessWidget {
-  const JoinGameBody({ super.key,});
+  final RoomService _roomService = injector<RoomService>();
+  final TextEditingController token = TextEditingController();
+  final TextEditingController userName = TextEditingController();
+
+  JoinGameBody({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        SizedBox(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            child: Image.asset("assets/icons/4199010.jpeg", fit: BoxFit.fill)),
+        SizedBox(height: MediaQuery.of(context).size.height, width: MediaQuery.of(context).size.width, child: Image.asset("assets/icons/4199010.jpeg", fit: BoxFit.fill)),
         SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: kDefaultPadding),
-              const TextField(
+              Center(
+                child: Text(
+                  "Join To The Game",
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+                ),
+              ),
+              const Spacer(),
+              TextField(
+                controller: userName,
                 maxLength: 10,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   filled: true,
                   fillColor: Colors.black54,
                   hintText: "Enter Your name",
@@ -34,12 +44,12 @@ class JoinGameBody extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: kDefaultPadding),
-              const SizedBox(height: kDefaultPadding),
-              const TextField(
+              const SizedBox(height: kDefaultPadding * 2),
+              TextField(
                 maxLength: 5,
+                controller: token,
                 keyboardType: TextInputType.number,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   filled: true,
                   fillColor: Colors.black54,
                   hintText: "Enter Room Number Here",
@@ -50,8 +60,9 @@ class JoinGameBody extends StatelessWidget {
               ),
               const Spacer(),
               InkWell(
-                onTap: () => Get.to(QuizScreen()),
-
+                onTap: () {
+                  _roomService.join(userName.text.toString(), int.parse(token.value.text)).then((value) => Get.to(const JoinWaitingScreen()));
+                },
                 child: Container(
                   width: double.infinity,
                   alignment: Alignment.center,

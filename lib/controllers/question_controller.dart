@@ -5,44 +5,46 @@ import 'package:root_master/screens/result/result_screen.dart';
 
 import '../models/Questions.dart';
 
-
-class QuestionController extends GetxController
-    with GetSingleTickerProviderStateMixin {
+class QuestionController extends GetxController with GetSingleTickerProviderStateMixin {
   // Lets animated our progress bar
 
   late AnimationController _animationController;
   late Animation _animation;
+
   // so that we can access our animation outside
   Animation get animation => _animation;
 
   late PageController _pageController;
+
   PageController get pageController => _pageController;
 
   final List<Question> _questions = sample_data
       .map(
-        (question) => Question(
-            id: question['id'],
-            question: question['question'],
-            options: question['options'],
-            answer: question['answer_index']),
+        (question) => Question(id: question['id'], question: question['question'], options: question['options'], answer: question['answer_index']),
       )
       .toList();
+
   List<Question> get questions => _questions;
 
   bool _isAnswered = false;
+
   bool get isAnswered => _isAnswered;
 
   late int _correctAns;
+
   int get correctAns => _correctAns;
 
   late int _selectedAns;
+
   int get selectedAns => _selectedAns;
 
   // for more about obs please check documentation
   final RxInt _questionNumber = 1.obs;
+
   RxInt get questionNumber => _questionNumber;
 
   int _numOfCorrectAns = 0;
+
   int get numOfCorrectAns => _numOfCorrectAns;
 
   // called immediately after the widget is allocated memory
@@ -93,8 +95,7 @@ class QuestionController extends GetxController
   void nextQuestion() {
     if (_questionNumber.value != _questions.length) {
       _isAnswered = false;
-      _pageController.nextPage(
-          duration: const Duration(milliseconds: 250), curve: Curves.ease);
+      _pageController.nextPage(duration: const Duration(milliseconds: 250), curve: Curves.ease);
 
       // Reset the counter
       _animationController.reset();

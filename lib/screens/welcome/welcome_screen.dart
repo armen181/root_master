@@ -17,10 +17,7 @@ class WelcomeScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          SizedBox(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              child: Image.asset("assets/icons/4199010.jpeg", fit: BoxFit.fill)),
+          SizedBox(height: MediaQuery.of(context).size.height, width: MediaQuery.of(context).size.width, child: Image.asset("assets/icons/4199010.jpeg", fit: BoxFit.fill)),
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
@@ -51,7 +48,9 @@ class WelcomeScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 50,), // 1/6
+                  const SizedBox(
+                    height: 50,
+                  ), // 1/6
                   InkWell(
                     onTap: () => Get.to(const JoinGameScreen()),
                     child: Container(

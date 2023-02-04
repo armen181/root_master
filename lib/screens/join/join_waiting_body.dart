@@ -6,10 +6,10 @@ import '../../../constants.dart';
 import '../../di/injector.dart';
 import '../quiz/quiz_screen.dart';
 
-class CreateGameBody extends StatelessWidget {
+class JoinWaitingBody extends StatelessWidget {
   final RoomService _roomService = injector<RoomService>();
 
-  CreateGameBody({
+  JoinWaitingBody({
     super.key,
   });
 
@@ -23,21 +23,10 @@ class CreateGameBody extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: kDefaultPadding),
-              FutureBuilder(
-                  future: _roomService.createRoom(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done && snapshot.data != null) {
-                      return Text(
-                        "Room Number : ${snapshot.data?.token}",
-                        style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
-                      );
-                    } else {
-                      return Container(
-                        alignment: Alignment.center,
-                        child: const CircularProgressIndicator(),
-                      );
-                    }
-                  }),
+              Text(
+                "Room Number : ${_roomService.getToken()}",
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+              ),
               const SizedBox(height: kDefaultPadding * 2),
               Center(
                 child: Text(
@@ -58,7 +47,7 @@ class CreateGameBody extends StatelessWidget {
                         itemBuilder: (context, index) {
                           return Container(
                             decoration: BoxDecoration(color: Colors.lightGreen.withOpacity(0.3), borderRadius: BorderRadius.circular(10)),
-                            margin: EdgeInsets.all(10),
+                            margin: const EdgeInsets.all(10),
                             height: 50,
                             width: MediaQuery.of(context).size.width,
                             child: Row(
@@ -96,23 +85,10 @@ class CreateGameBody extends StatelessWidget {
                       style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.white, fontSize: 20),
                     );
                   }
-                  ;
                 }, // builder should also handle the case when data is not fetched yet
               ),
               const SizedBox(height: kDefaultPadding),
-              const SizedBox(height: kDefaultPadding),
               const Spacer(),
-              const TextField(
-                maxLength: 10,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.black54,
-                  hintText: "Enter Your name",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(12)),
-                  ),
-                ),
-              ),
               const SizedBox(height: kDefaultPadding),
               InkWell(
                 onTap: () => Get.to(QuizScreen()),
@@ -126,7 +102,7 @@ class CreateGameBody extends StatelessWidget {
                     borderRadius: BorderRadius.all(Radius.circular(12)),
                   ),
                   child: Text(
-                    "Start Game",
+                    "Ready to Start",
                     style: Theme.of(context).textTheme.labelLarge?.copyWith(color: Colors.black, fontSize: 22),
                   ),
                 ),

@@ -4,15 +4,16 @@ import 'package:root_master/screens/quiz/components/body.dart';
 
 import '../../../controllers/question_controller.dart';
 import 'join_game_body.dart';
+import 'join_waiting_body.dart';
 
-class JoinGameScreen extends StatelessWidget {
-  const JoinGameScreen({super.key});
+class JoinWaitingScreen extends StatelessWidget {
+  const JoinWaitingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      body: JoinGameBody(),
+      body: JoinWaitingBody(),
     );
   }
 }

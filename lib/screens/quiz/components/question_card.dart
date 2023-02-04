@@ -7,8 +7,7 @@ import '../../../models/Questions.dart';
 import 'option.dart';
 
 class QuestionCard extends StatelessWidget {
-
-   const QuestionCard( {super.key, required this.question});
+  const QuestionCard({super.key, required this.question});
 
   final Question question;
 
@@ -27,10 +26,7 @@ class QuestionCard extends StatelessWidget {
         children: [
           Text(
             question.question,
-            style: Theme.of(context)
-                .textTheme
-                .titleLarge
-                ?.copyWith(color: Colors.white),
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Colors.white),
           ),
           const Spacer(),
           ...List.generate(
@@ -45,5 +41,4 @@ class QuestionCard extends StatelessWidget {
       ),
     );
   }
-
 }
