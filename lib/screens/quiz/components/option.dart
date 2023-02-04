@@ -19,7 +19,7 @@ class Option extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<QuestionController>(
-        init: QuestionController(),
+        init: QuestionController(context),
         builder: (qnController) {
           Color getTheRightColor() {
             if (qnController.isAnswered) {
@@ -50,7 +50,7 @@ class Option extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "${index + 1}. $text",
+                    "${index + 1}.   $text",
                     style: TextStyle(color: Colors.white, fontSize: 18),
                   ),
                   Container(

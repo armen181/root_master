@@ -16,5 +16,5 @@ const String baseUrl = "http://192.168.4.67:8080";
 const String roomUri = "/room";
 const String playerUri = "/player";
 const String playerStateUri = "/player/state";
-const String startUri = "/start";
+const String answerUri = "/question/answer";
 const String joinUri = "/room/join";

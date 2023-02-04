@@ -3,17 +3,17 @@ import 'package:get/get.dart';
 
 import '../../../constants.dart';
 import '../../../controllers/question_controller.dart';
-import '../../../models/Questions.dart';
+import '../../../dto/question_dto.dart';
 import 'option.dart';
 
 class QuestionCard extends StatelessWidget {
   const QuestionCard({super.key, required this.question});
 
-  final Question question;
+  final QuestionDto question;
 
   @override
   Widget build(BuildContext context) {
-    QuestionController controller = Get.put(QuestionController());
+    QuestionController controller = Get.put(QuestionController(context));
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
       padding: const EdgeInsets.all(kDefaultPadding),
@@ -33,7 +33,7 @@ class QuestionCard extends StatelessWidget {
             4,
             (index) => Option(
               index: index,
-              text: question.options[index],
+              text: question.answers[index],
               press: () => controller.checkAns(question, index),
             ),
           ),

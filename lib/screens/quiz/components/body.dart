@@ -14,7 +14,7 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    QuestionController questionController = Get.put(QuestionController());
+    QuestionController questionController = Get.put(QuestionController(context));
     return Stack(
       children: [
         SizedBox(height: MediaQuery.of(context).size.height, width: MediaQuery.of(context).size.width, child: Image.asset("assets/icons/4199010.jpeg", fit: BoxFit.fill)),

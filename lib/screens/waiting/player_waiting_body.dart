@@ -96,40 +96,7 @@ class PlayerWaitingBody extends StatelessWidget {
                         ),
                       );
                     }
-                    return Center(
-                      child: CircularCountDownTimer(
-                        duration: 5,
-                        initialDuration: 0,
-                        controller: CountDownController(),
-                        width: MediaQuery.of(context).size.width / 2,
-                        height: MediaQuery.of(context).size.height / 2,
-                        ringColor: Colors.grey[300]!,
-                        ringGradient: null,
-                        fillColor: Colors.green[500]!,
-                        fillGradient: null,
-                        backgroundColor: Colors.green[300],
-                        backgroundGradient: null,
-                        strokeWidth: 20.0,
-                        strokeCap: StrokeCap.round,
-                        textStyle: const TextStyle(fontSize: 33.0, color: Colors.white, fontWeight: FontWeight.bold),
-                        textFormat: CountdownTextFormat.S,
-                        isReverse: true,
-                        isReverseAnimation: false,
-                        isTimerTextShown: true,
-                        autoStart: true,
-                        onStart: () {
-                          debugPrint('Countdown Started');
-                        },
-                        onComplete: () => Get.to(() => QuizScreen()),
-                        timeFormatterFunction: (defaultFormatterFunction, duration) {
-                          if (duration.inSeconds == 0) {
-                            return "Start";
-                          } else {
-                            return Function.apply(defaultFormatterFunction, [duration]);
-                          }
-                        },
-                      ),
-                    );
+                    return _roomService.getCountDown(context, () => Get.to(() => QuizScreen()));
                   } else {
                     return Text(
                       "Waiting players to join ...",
