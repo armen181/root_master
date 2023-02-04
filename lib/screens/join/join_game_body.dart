@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../../../constants.dart';
 import '../../di/injector.dart';
 import '../../service/room_service.dart';
-import 'join_waiting_screen.dart';
+import 'player_waiting_screen.dart';
 
 class JoinGameBody extends StatelessWidget {
   final RoomService _roomService = injector<RoomService>();
@@ -61,7 +61,7 @@ class JoinGameBody extends StatelessWidget {
               const Spacer(),
               InkWell(
                 onTap: () {
-                  _roomService.join(userName.text.toString(), int.parse(token.value.text)).then((value) => Get.to(const JoinWaitingScreen()));
+                  _roomService.join(userName.text.toString(), int.parse(token.value.text)).then((value) => Get.to(const PlayerWaitingScreen()));
                 },
                 child: Container(
                   width: double.infinity,

@@ -9,13 +9,13 @@ part of 'question_dto.dart';
 QuestionDto _$QuestionDtoFromJson(Map<String, dynamic> json) => QuestionDto(
       id: json['id'] as int,
       question: json['question'] as String,
-      answer: json['answer'] as int,
-      options: (json['options'] as List<dynamic>).map((e) => e as String).toList(),
+      answerIndex: json['answer_index'] as int,
+      answers: (json['answers'] as List<dynamic>).map((e) => e as String).toList(),
     );
 
 Map<String, dynamic> _$QuestionDtoToJson(QuestionDto instance) => <String, dynamic>{
       'id': instance.id,
-      'answer': instance.answer,
+      'answer_index': instance.answerIndex,
       'question': instance.question,
-      'options': instance.options,
+      'answers': instance.answers,
     };

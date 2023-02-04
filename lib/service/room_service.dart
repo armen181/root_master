@@ -13,9 +13,13 @@ class RoomService {
   late PlayerDto _user;
   late RoomDto _roomDto;
 
-  Future<RoomDto> createRoom() async {
+  Future<RoomDto> createRoom(String userName) async {
+    var formData = FormData.fromMap({
+      'userName': userName,
+    });
     final result = await _httpService.post(
       '$baseUrl$roomUri',
+      data: formData,
       options: Options(
           validateStatus: (status) {
             return status! < 400;

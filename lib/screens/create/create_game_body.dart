@@ -4,10 +4,12 @@ import 'package:root_master/service/room_service.dart';
 
 import '../../../constants.dart';
 import '../../di/injector.dart';
+import '../join/player_waiting_screen.dart';
 import '../quiz/quiz_screen.dart';
 
 class CreateGameBody extends StatelessWidget {
   final RoomService _roomService = injector<RoomService>();
+  final TextEditingController userName = TextEditingController();
 
   CreateGameBody({
     super.key,
@@ -23,88 +25,17 @@ class CreateGameBody extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: kDefaultPadding),
-              FutureBuilder(
-                  future: _roomService.createRoom(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done && snapshot.data != null) {
-                      return Text(
-                        "Room Number : ${snapshot.data?.token}",
-                        style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
-                      );
-                    } else {
-                      return Container(
-                        alignment: Alignment.center,
-                        child: const CircularProgressIndicator(),
-                      );
-                    }
-                  }),
-              const SizedBox(height: kDefaultPadding * 2),
               Center(
                 child: Text(
-                  "Players",
-                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.white, fontSize: 20),
+                  "Create Game",
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
                 ),
               ),
-              const SizedBox(height: kDefaultPadding),
-              StreamBuilder(
-                stream: Stream.periodic(const Duration(seconds: 1)).asyncMap((i) => _roomService.getPlayers()), // i is null here (check periodic docs)
-                builder: (context, snapshot) {
-                  if (snapshot.data != null && snapshot.data!.isNotEmpty) {
-                    return SizedBox(
-                      height: 280,
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            decoration: BoxDecoration(color: Colors.lightGreen.withOpacity(0.3), borderRadius: BorderRadius.circular(10)),
-                            margin: EdgeInsets.all(10),
-                            height: 50,
-                            width: MediaQuery.of(context).size.width,
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                const SizedBox(width: 5),
-                                Container(
-                                  padding: const EdgeInsets.all(10),
-                                  child: Text("${index + 1}", style: const TextStyle(fontSize: 24)),
-                                ),
-                                Container(
-                                  padding: const EdgeInsets.all(10),
-                                  child: const Icon(Icons.person),
-                                ),
-                                Text(
-                                  snapshot.data![index].userName,
-                                ),
-                                const Spacer(),
-                                Container(
-                                  decoration: BoxDecoration(color: Colors.lightGreen.withOpacity(0.35), borderRadius: BorderRadius.circular(10)),
-                                  width: 100,
-                                  child: const Center(
-                                    child: Text("0"),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                    );
-                  } else {
-                    return Text(
-                      "Waiting players to join ...",
-                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.white, fontSize: 20),
-                    );
-                  }
-                  ;
-                }, // builder should also handle the case when data is not fetched yet
-              ),
-              const SizedBox(height: kDefaultPadding),
-              const SizedBox(height: kDefaultPadding),
               const Spacer(),
-              const TextField(
+              TextField(
+                controller: userName,
                 maxLength: 10,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   filled: true,
                   fillColor: Colors.black54,
                   hintText: "Enter Your name",
@@ -113,9 +44,11 @@ class CreateGameBody extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: kDefaultPadding),
+              const Spacer(),
               InkWell(
-                onTap: () => Get.to(QuizScreen()),
+                onTap: () {
+                  _roomService.createRoom(userName.text.toString()).then((value) => Get.to(const PlayerWaitingScreen()));
+                },
                 child: Container(
                   width: double.infinity,
                   alignment: Alignment.center,
