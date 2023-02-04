@@ -4,7 +4,7 @@ import 'package:root_master/service/room_service.dart';
 
 import '../../../constants.dart';
 import '../../di/injector.dart';
-import '../join/player_waiting_screen.dart';
+import '../waiting/player_waiting_screen.dart';
 import '../quiz/quiz_screen.dart';
 
 class CreateGameBody extends StatelessWidget {

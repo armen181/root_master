@@ -30,6 +30,7 @@ class RoomService {
     );
     _roomDto = RoomDto.fromJson(result.data);
     _token = _roomDto.token;
+    _user = _roomDto.players.first;
     return _roomDto;
   }
 
@@ -47,6 +48,21 @@ class RoomService {
           }),
     );
     return (result.data as List).map((data) => PlayerDto.fromJson(data)).toList();
+  }
+
+  Future<void> setPlayerState(PlayerState state) async {
+    var formData = FormData.fromMap({'token': _token, 'id': _user.id, 'state': state.name});
+    await _httpService.post(
+      '$baseUrl$playerStateUri',
+      data: formData,
+      options: Options(
+          validateStatus: (status) {
+            return status! < 400;
+          },
+          headers: {
+            HttpHeaders.contentTypeHeader: "application/json",
+          }),
+    );
   }
 
   Future<void> join(String userName, int joinToken) async {

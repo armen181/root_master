@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../../constants.dart';
 import '../../controllers/question_controller.dart';
 import '../quiz/quiz_screen.dart';
+import '../waiting/player_waiting_screen.dart';
 import '../welcome/welcome_screen.dart';
 
 class ResultScreen extends StatelessWidget {
@@ -48,7 +49,7 @@ class ResultScreen extends StatelessWidget {
               ),
               const SizedBox(height: kDefaultPadding),
               InkWell(
-                onTap: () => Get.to(QuizScreen()),
+                onTap: () => Get.to(() => const PlayerWaitingScreen()),
                 child: Container(
                   width: double.infinity,
                   alignment: Alignment.center,

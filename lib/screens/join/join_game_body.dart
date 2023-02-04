@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../../../constants.dart';
 import '../../di/injector.dart';
 import '../../service/room_service.dart';
-import 'player_waiting_screen.dart';
+import '../waiting/player_waiting_screen.dart';
 
 class JoinGameBody extends StatelessWidget {
   final RoomService _roomService = injector<RoomService>();

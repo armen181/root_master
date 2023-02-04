@@ -43,6 +43,7 @@ dependencies:
   rounded_loading_button: ^2.1.0
   flutter_svg: ^0.21.0+1
   get: ^4.1.4
+  circular_countdown_timer: ^0.2.3
 
 dev_dependencies:
   build_runner: ^2.3.3
