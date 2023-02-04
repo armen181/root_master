@@ -3,12 +3,17 @@ import 'package:get/get.dart';
 
 import '../../constants.dart';
 import '../../controllers/question_controller.dart';
+import '../../di/injector.dart';
+import '../../dto/player_dto.dart';
+import '../../service/room_service.dart';
 import '../quiz/quiz_screen.dart';
 import '../waiting/player_waiting_screen.dart';
 import '../welcome/welcome_screen.dart';
 
 class ResultScreen extends StatelessWidget {
-  const ResultScreen({super.key});
+  final RoomService _roomService = injector<RoomService>();
+
+  ResultScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,14 +25,64 @@ class ResultScreen extends StatelessWidget {
           Column(
             children: [
               const SizedBox(height: kDefaultPadding),
-              Text(
-                "Score",
-                style: Theme.of(context).textTheme.displaySmall?.copyWith(color: kSecondaryColor),
-              ),
-              const Spacer(),
-              Text(
-                "TODO - list of users",
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: kSecondaryColor),
+              FutureBuilder(
+                future: _roomService.getPlayers(),
+                builder: (context, snapshot) {
+                  if (snapshot.data != null && snapshot.data!.isNotEmpty) {
+                    snapshot.data!.sort((a, b) => a.score.compareTo(b.score));
+                    return Expanded(
+                      child: Column(
+                        children: [
+                          Text(
+                            "Winner is ${snapshot.data!.first.userName}",
+                            style: Theme.of(context).textTheme.displaySmall?.copyWith(color: kSecondaryColor),
+                          ),
+                          const SizedBox(height: kDefaultPadding),
+                          ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: snapshot.data!.length,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                decoration: BoxDecoration(color: snapshot.data![index].lastResult == PlayerLastResult.SUCCEED ? Colors.lightGreen.withOpacity(0.3) : Colors.redAccent.withOpacity(0.3), borderRadius: BorderRadius.circular(10)),
+                                margin: const EdgeInsets.all(10),
+                                height: 50,
+                                width: MediaQuery.of(context).size.width,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    const SizedBox(width: 5),
+                                    Container(
+                                      padding: const EdgeInsets.all(10),
+                                      child: Text("${index + 1}", style: const TextStyle(fontSize: 24)),
+                                    ),
+                                    Container(
+                                      padding: const EdgeInsets.all(10),
+                                      child: const Icon(Icons.person),
+                                    ),
+                                    Text(
+                                      snapshot.data![index].userName,
+                                    ),
+                                    const Spacer(),
+                                    Container(
+                                      decoration: BoxDecoration(color: snapshot.data![index].lastResult == PlayerLastResult.SUCCEED ? Colors.lightGreen.withOpacity(0.35) : Colors.redAccent.withOpacity(0.35), borderRadius: BorderRadius.circular(10)),
+                                      width: 100,
+                                      child: Center(child: Text(snapshot.data![index].score.toString(), style: const TextStyle(color: Colors.white, fontSize: 24))),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                  } else {
+                    return Container(
+                      alignment: Alignment.center,
+                      child: const CircularProgressIndicator(),
+                    );
+                  }
+                },
               ),
               const Spacer(flex: 1),
               InkWell(
@@ -49,7 +104,9 @@ class ResultScreen extends StatelessWidget {
               ),
               const SizedBox(height: kDefaultPadding),
               InkWell(
-                onTap: () => Get.to(() => const PlayerWaitingScreen()),
+                onTap: () => Get.to(
+                  () => const PlayerWaitingScreen(),
+                ),
                 child: Container(
                   width: double.infinity,
                   alignment: Alignment.center,

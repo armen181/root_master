@@ -24,21 +24,26 @@ class RoomService {
     var formData = FormData.fromMap({
       'userName': userName,
     });
-    final result = await _httpService.post(
-      '$baseUrl$roomUri',
-      data: formData,
-      options: Options(
-          validateStatus: (status) {
-            return status! < 400;
-          },
-          headers: {
-            HttpHeaders.contentTypeHeader: "application/json",
-          }),
-    );
-    _roomDto = RoomDto.fromJson(result.data);
-    _token = _roomDto.token;
-    _user = _roomDto.players.first;
-    return _roomDto;
+    try {
+      final result = await _httpService.post(
+        '$baseUrl$roomUri',
+        data: formData,
+        options: Options(
+            validateStatus: (status) {
+              return status! < 400;
+            },
+            headers: {
+              HttpHeaders.contentTypeHeader: "application/json",
+            }),
+      );
+      _roomDto = RoomDto.fromJson(result.data);
+      _token = _roomDto.token;
+      _user = _roomDto.players.first;
+      return _roomDto;
+    } catch (e) {
+      Get.snackbar("Error", "It can be that the server unavailable try later");
+      rethrow;
+    }
   }
 
   Future<List<PlayerDto>> getPlayers() async {
@@ -78,18 +83,23 @@ class RoomService {
       'token': _token,
       'userName': userName,
     });
-    final result = await _httpService.post(
-      '$baseUrl$joinUri',
-      data: formData,
-      options: Options(
-          validateStatus: (status) {
-            return status == 200;
-          },
-          headers: {
-            HttpHeaders.contentTypeHeader: "application/json",
-          }),
-    );
-    _user = PlayerDto.fromJson(result.data);
+    try {
+      final result = await _httpService.post(
+        '$baseUrl$joinUri',
+        data: formData,
+        options: Options(
+            validateStatus: (status) {
+              return status == 200;
+            },
+            headers: {
+              HttpHeaders.contentTypeHeader: "application/json",
+            }),
+      );
+      _user = PlayerDto.fromJson(result.data);
+    } catch (e) {
+      Get.snackbar("Error", "Please check Room number or name can be already used");
+      rethrow;
+    }
   }
 
   Future<void> answer(int questionId, int answerIndex, int time) async {
@@ -174,7 +184,7 @@ class RoomService {
                               itemCount: snapshot.data!.length,
                               itemBuilder: (context, index) {
                                 return Container(
-                                  decoration: BoxDecoration(color: Colors.lightGreen.withOpacity(0.3), borderRadius: BorderRadius.circular(10)),
+                                  decoration: BoxDecoration(color: snapshot.data![index].lastResult == PlayerLastResult.SUCCEED ? Colors.lightGreen.withOpacity(0.3) : Colors.redAccent.withOpacity(0.3), borderRadius: BorderRadius.circular(10)),
                                   margin: const EdgeInsets.all(10),
                                   height: 50,
                                   width: MediaQuery.of(context).size.width,
@@ -195,7 +205,8 @@ class RoomService {
                                       ),
                                       const Spacer(),
                                       Container(
-                                        decoration: BoxDecoration(color: Colors.lightGreen.withOpacity(0.35), borderRadius: BorderRadius.circular(10)),
+                                        decoration:
+                                            BoxDecoration(color: snapshot.data![index].lastResult == PlayerLastResult.SUCCEED ? Colors.lightGreen.withOpacity(0.35) : Colors.redAccent.withOpacity(0.35), borderRadius: BorderRadius.circular(10)),
                                         width: 100,
                                         child: snapshot.data![index].state == PlayerState.READY_TO_START
                                             ? const Center(

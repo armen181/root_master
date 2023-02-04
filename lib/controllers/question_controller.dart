@@ -84,7 +84,7 @@ class QuestionController extends GetxController with GetSingleTickerProviderStat
       _roomService.answer(question.id, selectedIndex, ((1 - _animationController.value) * 100).toInt());
       if (_questionNumber.value == _questions.length) {
         _pageController.dispose();
-        Get.to(const ResultScreen());
+        Get.to(() => ResultScreen());
       } else {
         _roomService.getShowModal(context, nextQuestion);
       }
@@ -95,7 +95,7 @@ class QuestionController extends GetxController with GetSingleTickerProviderStat
     _roomService.answer(_roomService.getQuestionId(_questionNumber.value), -1, 0);
     if (_questionNumber.value == _questions.length) {
       _pageController.dispose();
-      Get.to(const ResultScreen());
+      Get.to(() => ResultScreen());
     } else {
       _roomService.getShowModal(context, nextQuestion);
     }
@@ -111,7 +111,7 @@ class QuestionController extends GetxController with GetSingleTickerProviderStat
 
       _animationController.forward().whenComplete(notAnswered);
     } else {
-      Get.to(const ResultScreen());
+      Get.to(() => ResultScreen());
     }
   }
 
