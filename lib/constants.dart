@@ -12,3 +12,8 @@ const kPrimaryGradient = LinearGradient(
 );
 
 const double kDefaultPadding = 20.0;
+const String baseUrl = "http://192.168.4.67:8080";
+const String roomUri = "/room";
+const String playerUri = "/player";
+const String startUri = "/start";
+const String joinUri = "/room/join";

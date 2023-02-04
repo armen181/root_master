@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:root_master/screens/welcome/welcome_screen.dart';
 
-void main() {
-  runApp(MyApp());
+import 'di/registry.dart';
+
+void main() async{
+  configure();
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
