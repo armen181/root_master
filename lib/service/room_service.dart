@@ -17,7 +17,7 @@ import '../screens/welcome/welcome_screen.dart';
 class RoomService {
   final Dio _httpService = injector<Dio>();
   late int _token;
-  late PlayerDto _user;
+  late String _user;
   late RoomDto _roomDto;
 
   Future<RoomDto> createRoom(String userName) async {
@@ -38,7 +38,7 @@ class RoomService {
       );
       _roomDto = RoomDto.fromJson(result.data);
       _token = _roomDto.token;
-      _user = _roomDto.players.first;
+      _user = _roomDto.players.first.userName;
       return _roomDto;
     } catch (e) {
       Get.snackbar("Error", "It can be that the server unavailable try later");
@@ -62,10 +62,25 @@ class RoomService {
     return (result.data as List).map((data) => PlayerDto.fromJson(data)).toList();
   }
 
-  Future<void> setPlayerState(PlayerState state) async {
-    var formData = FormData.fromMap({'token': _token, 'id': _user.id, 'state': state.name});
+  Future<void> setPlayerReady() async {
+    var formData = FormData.fromMap({'token': _token, 'userName': _user});
     await _httpService.post(
-      '$baseUrl$playerStateUri',
+      '$baseUrl$playerReadyUri',
+      data: formData,
+      options: Options(
+          validateStatus: (status) {
+            return status! < 400;
+          },
+          headers: {
+            HttpHeaders.contentTypeHeader: "application/json",
+          }),
+    );
+  }
+
+  Future<void> setPlayerPreparing() async {
+    var formData = FormData.fromMap({'token': _token, 'userName': _user});
+    await _httpService.post(
+      '$baseUrl$playerPreparingUri',
       data: formData,
       options: Options(
           validateStatus: (status) {
@@ -95,7 +110,8 @@ class RoomService {
               HttpHeaders.contentTypeHeader: "application/json",
             }),
       );
-      _user = PlayerDto.fromJson(result.data);
+      _user = userName;
+      _roomDto = RoomDto.fromJson(result.data);
     } catch (e) {
       Get.snackbar("Error", "Please check Room number or name can be already used");
       rethrow;
@@ -105,7 +121,7 @@ class RoomService {
   Future<void> answer(int questionId, int answerIndex, int time) async {
     await _httpService.post(
       '$baseUrl$answerUri',
-      data: AnswerDto(questionId, answerIndex, _token, _user.userName, time),
+      data: AnswerDto(questionId, answerIndex, _token, _user, time),
       options: Options(
           validateStatus: (status) {
             return status! < 400;
@@ -167,8 +183,8 @@ class RoomService {
                 builder: (context, snapshot) {
                   if (snapshot.data != null && snapshot.data!.isNotEmpty) {
                     if (snapshot.data!.any((pl) => pl.state == PlayerState.PREPARING)) {
-                      snapshot.data!.sort((a, b) => a.score.compareTo(b.score));
-                      readyToStart = snapshot.data!.where((element) => element.userName == _user.userName).first.state == PlayerState.READY_TO_START;
+                      snapshot.data!.sort((a, b) => b.score.compareTo(a.score));
+                      readyToStart = snapshot.data!.where((element) => element.userName == _user).first.state == PlayerState.READY_TO_START;
                       return Expanded(
                         child: Column(
                           children: [
@@ -239,7 +255,9 @@ class RoomService {
                                     ),
                                     child: const Center(child: Text("Quit game")),
                                   ),
-                                  onTap: () => Get.to(() => const WelcomeScreen()),
+                                  onTap: () {
+                                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const WelcomeScreen()), (e) => false);
+                                  },
                                 ),
                                 const Spacer(),
                                 InkWell(
@@ -253,7 +271,7 @@ class RoomService {
                                     child: const Center(child: Text("Ready")),
                                   ),
                                   onTap: () {
-                                    setPlayerState(PlayerState.READY_TO_START);
+                                    setPlayerReady();
                                   },
                                 ),
                               ],

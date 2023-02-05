@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
@@ -83,8 +84,8 @@ class QuestionController extends GetxController with GetSingleTickerProviderStat
     Future.delayed(const Duration(seconds: 2), () {
       _roomService.answer(question.id, selectedIndex, ((1 - _animationController.value) * 100).toInt());
       if (_questionNumber.value == _questions.length) {
-        _pageController.dispose();
-        Get.to(() => ResultScreen());
+        // _pageController.dispose();
+        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => ResultScreen()), (e) => false);
       } else {
         _roomService.getShowModal(context, nextQuestion);
       }
@@ -94,8 +95,8 @@ class QuestionController extends GetxController with GetSingleTickerProviderStat
   void notAnswered() {
     _roomService.answer(_roomService.getQuestionId(_questionNumber.value), -1, 0);
     if (_questionNumber.value == _questions.length) {
-      _pageController.dispose();
-      Get.to(() => ResultScreen());
+      // _pageController.dispose();
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => ResultScreen()), (e) => false);
     } else {
       _roomService.getShowModal(context, nextQuestion);
     }
@@ -103,6 +104,7 @@ class QuestionController extends GetxController with GetSingleTickerProviderStat
 
   void nextQuestion() {
     Navigator.pop(context);
+    _roomService.setPlayerPreparing();
     if (_questionNumber.value != _questions.length) {
       _isAnswered = false;
       _pageController.nextPage(duration: const Duration(milliseconds: 250), curve: Curves.ease);
@@ -111,7 +113,8 @@ class QuestionController extends GetxController with GetSingleTickerProviderStat
 
       _animationController.forward().whenComplete(notAnswered);
     } else {
-      Get.to(() => ResultScreen());
+      // _pageController.dispose();
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => ResultScreen()), (e) => false);
     }
   }
 

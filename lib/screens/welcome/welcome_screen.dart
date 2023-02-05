@@ -28,7 +28,9 @@ class WelcomeScreen extends StatelessWidget {
                   const Text("Be fast to win"),
                   const Spacer(),
                   InkWell(
-                    onTap: () => Get.to(const CreateGameScreen()),
+                    onTap: () {
+                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const CreateGameScreen()), (e) => false);
+                    },
                     child: Container(
                       width: double.infinity,
                       alignment: Alignment.center,
@@ -48,7 +50,9 @@ class WelcomeScreen extends StatelessWidget {
                     height: 50,
                   ), // 1/6
                   InkWell(
-                    onTap: () => Get.to(const JoinGameScreen()),
+                    onTap: () {
+                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const JoinGameScreen()), (e) => false);
+                    },
                     child: Container(
                       width: double.infinity,
                       alignment: Alignment.center,

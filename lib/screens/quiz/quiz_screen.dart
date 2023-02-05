@@ -11,11 +11,11 @@ import 'components/body.dart';
 
 class QuizScreen extends StatelessWidget {
   final RoomService _roomService = injector<RoomService>();
-
   QuizScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    Get.delete<QuestionController>();
     QuestionController questionController = Get.put(QuestionController(context));
     return Scaffold(
       extendBodyBehindAppBar: true,

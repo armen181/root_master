@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:root_master/screens/welcome/welcome_screen.dart';
 
@@ -6,6 +7,7 @@ import 'di/registry.dart';
 
 void main() async {
   configure();
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.top]);
   runApp(const MyApp());
 }
 

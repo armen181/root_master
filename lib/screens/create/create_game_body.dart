@@ -47,7 +47,7 @@ class CreateGameBody extends StatelessWidget {
               const Spacer(),
               InkWell(
                 onTap: () {
-                  _roomService.createRoom(userName.text.toString()).then((value) => Get.to(const PlayerWaitingScreen()));
+                  _roomService.createRoom(userName.text.toString()).then((value) => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const PlayerWaitingScreen()), (e) => false));
                 },
                 child: Container(
                   width: double.infinity,

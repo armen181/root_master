@@ -25,11 +25,11 @@ class ResultScreen extends StatelessWidget {
           Column(
             children: [
               const SizedBox(height: kDefaultPadding),
-              FutureBuilder(
-                future: _roomService.getPlayers(),
+              StreamBuilder(
+                stream: Stream.periodic(const Duration(seconds: 1)).asyncMap((i) => _roomService.getPlayers()),
                 builder: (context, snapshot) {
                   if (snapshot.data != null && snapshot.data!.isNotEmpty) {
-                    snapshot.data!.sort((a, b) => a.score.compareTo(b.score));
+                    snapshot.data!.sort((a, b) => b.score.compareTo(a.score));
                     return Expanded(
                       child: Column(
                         children: [
@@ -86,7 +86,10 @@ class ResultScreen extends StatelessWidget {
               ),
               const Spacer(flex: 1),
               InkWell(
-                onTap: () => Get.to(const WelcomeScreen()),
+                onTap: () {
+                  Get.delete<QuestionController>();
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const WelcomeScreen()), (e) => false);
+                },
                 child: Container(
                   width: double.infinity,
                   alignment: Alignment.center,
@@ -104,9 +107,10 @@ class ResultScreen extends StatelessWidget {
               ),
               const SizedBox(height: kDefaultPadding),
               InkWell(
-                onTap: () => Get.to(
-                  () => const PlayerWaitingScreen(),
-                ),
+                onTap: () {
+                  Get.delete<QuestionController>();
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const PlayerWaitingScreen()), (e) => false);
+                },
                 child: Container(
                   width: double.infinity,
                   alignment: Alignment.center,

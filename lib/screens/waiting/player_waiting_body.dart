@@ -96,7 +96,10 @@ class PlayerWaitingBody extends StatelessWidget {
                         ),
                       );
                     }
-                    return _roomService.getCountDown(context, () => Get.to(() => QuizScreen()));
+                    return _roomService.getCountDown(context, () {
+                      _roomService.setPlayerPreparing();
+                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => QuizScreen()), (e) => false);
+                    });
                   } else {
                     return Text(
                       "Waiting players to join ...",
@@ -110,7 +113,7 @@ class PlayerWaitingBody extends StatelessWidget {
               const SizedBox(height: kDefaultPadding),
               InkWell(
                 onTap: () {
-                  _roomService.setPlayerState(PlayerState.READY_TO_START).then((value) => {});
+                  _roomService.setPlayerReady().then((value) => {});
                 },
                 child: Container(
                   width: double.infinity,

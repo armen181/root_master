@@ -61,7 +61,7 @@ class JoinGameBody extends StatelessWidget {
               const Spacer(),
               InkWell(
                 onTap: () {
-                  _roomService.join(userName.text.toString(), int.parse(token.value.text)).then((value) => Get.to(const PlayerWaitingScreen()));
+                  _roomService.join(userName.text.toString(), int.parse(token.value.text)).then((value) => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const PlayerWaitingScreen()), (e) => false));
                 },
                 child: Container(
                   width: double.infinity,
